@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untukmu yang Kusayangi 💌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f7e6e6 0%, #fbd3d3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            padding: 16px;
+        }
+
+        /* Amplop Utama */
+        .envelope {
+            max-width: 750px;
+            width: 100%;
+            background-color: #fff9f5;
+            border-radius: 32px 32px 24px 24px;
+            box-shadow: 0 20px 35px -8px rgba(235, 120, 120, 0.4), 0 8px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 215, 0.6);
+        }
+
+        /* Tutup Amplop (bagian header) */
+        .envelope-flap {
+            background: #fcc4c4;
+            background: linear-gradient(115deg, #fbb5b5 0%, #ff9e9e 100%);
+            padding: 20px 25px;
+            text-align: center;
+            color: #4a2b2b;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 3px dashed #ffb7b7;
+            transition: background 0.2s, letter-spacing 0.2s;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 0 #ffe1e1;
+            box-shadow: inset 0 -2px 8px rgba(255, 255, 255, 0.7);
+        }
+
+        .envelope-flap:hover {
+            background: linear-gradient(115deg, #ffacac 0%, #ff8f8f 100%);
+            letter-spacing: 4px;
+        }
+
+        .envelope-flap:active {
+            transform: scale(0.99);
+        }
+
+        /* Area Isi Surat */
+        .letter-content {
+            padding: 30px 32px 40px 32px;
+            background: #fffbfb;
+            background-image: radial-gradient(circle at 10px 10px, rgba(255, 200, 200, 0.2) 2px, transparent 2px), 
+                              linear-gradient(to bottom, #fff3f3, #fffbfb);
+            background-size: 30px 30px, 100%;
+            transition: opacity 0.3s, max-height 0.4s ease-in-out;
+            max-height: 2000px;
+            opacity: 1;
+            overflow: hidden;
+        }
+
+        /* Saat surat "tertutup" */
+        .envelope.closed .letter-content {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin: 0;
+            border: none;
+        }
+
+        .stamp {
+            font-size: 2.2rem;
+            margin-left: 10px;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+            display: inline-block;
+            transform: rotate(8deg);
+        }
+
+        /* Menu pilihan */
+        .choice-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 20px 0 25px 0;
+            padding: 15px 10px;
+            background: rgba(255, 225, 225, 0.7);
+            border-radius: 60px;
+            border: 1px solid #ffd9d9;
+        }
+
+        .choice-btn {
+            background: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #dba5a5, 0 8px 18px rgba(190, 90, 90, 0.2);
+            transition: all 0.08s linear;
+            color: #5f3737;
+            letter-spacing: 1px;
+            flex: 0 1 auto;
+            min-width: 120px;
+            border: 2px solid #ffe3e3;
+        }
+
+        .choice-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #dba5a5, 0 5px 12px rgba(190, 90, 90, 0.2);
+        }
+
+        .choice-btn.buka {
+            background: #ffd3d3;
+            color: #943e3e;
+        }
+
+        .choice-btn.lanjut {
+            background: #ffe0b5;
+            color: #8b5f2c;
+        }
+
+        .choice-btn.selesai {
+            background: #d9d9d9;
+            color: #4f4f4f;
+        }
+
+        /* Area pesan berdasarkan pilihan */
+        .message-area {
+            margin: 20px 0 10px;
+            min-height: 240px;
+            transition: all 0.2s;
+        }
+
+        .message-card {
+            background: rgba(255, 245, 245, 0.8);
+            backdrop-filter: blur(4px);
+            padding: 28px 25px;
+            border-radius: 32px 12px 32px 12px;
+            border: 2px solid white;
+            box-shadow: 0 12px 25px -8px rgba(201, 120, 120, 0.5);
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #3d2626;
+        }
+
+        .message-card.buka-message {
+            background: #fff1f1;
+            border-left: 10px solid #fba0a0;
+        }
+
+        .message-card.lanjut-message {
+            background: #fff9e6;
+            border-left: 10px solid #f8c15c;
+        }
+
+        .message-card.selesai-message {
+            background: #f0f0f0;
+            border-left: 10px solid #a5a5a5;
+            color: #4d4d4d;
+        }
+
+        .heart-icon {
+            font-size: 2.8rem;
+            line-height: 1;
+            animation: softBeat 2s infinite ease-in-out;
+            transform-origin: center;
+        }
+
+        @keyframes softBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+            55% { transform: scale(1.06); }
+            70% { transform: scale(1); }
+        }
+
+        .to-someone {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #7a4f4f;
+            letter-spacing: 1px;
+        }
+
+        .to-someone strong {
+            font-weight: 700;
+            color: #c76262;
+            background: #fff0f0;
+            padding: 0 10px 0 6px;
+            border-radius: 50px;
+            font-style: italic;
+        }
+
+        .header-letter {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ffd4d4;
+            padding-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .floral {
+            color: #dd9b9b;
+            font-size: 1.2rem;
+            margin: 15px 0 5px;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .signature {
+            text-align: right;
+            font-size: 1.35rem;
+            margin-top: 25px;
+            border-top: 2px dashed #ffc9c9;
+            padding-top: 20px;
+        }
+
+        .signature .name {
+            font-size: 2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #d26b6b, #b25353);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            margin-left: 10px;
+            letter-spacing: 2px;
+        }
+
+        .dot-separator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #f0acac;
+            border-radius: 50%;
+            margin: 0 6px 0 2px;
+            opacity: 0.5;
+        }
+
+        .btn-note {
+            text-align: center;
+            margin-top: 15px;
+            color: #ad7a7a;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="envelope" id="suratCinta">
+    <!-- Bagian flap / tutup amplop yang bisa diklik -->
+    <div class="envelope-flap" id="bukaTutupBtn">
+        <span class="stamp">🌸</span>
+        Klik untuk <span id="teksTombol">membuka</span> surat
+        <span class="stamp">🌼</span>
+    </div>
+
+    <!-- Badan amplop dan isi surat -->
+    <div class="envelope-body">
+        <div class="letter-content" id="isiSurat">
+            <!-- Kop -->
+            <div class="header-letter">
+                <span class="heart-icon">💌</span>
+                <span class="to-someone">
+                    Untuk <strong>kamu</strong> yang selalu di hati
+                </span>
+            </div>
+            
+            <!-- TIGA PILIHAN: BUKA | LANJUT | SELESAI -->
+            <div class="choice-menu">
+                <button class="choice-btn buka" id="pilihBuka">📩 Buka</button>
+                <button class="choice-btn lanjut" id="pilihLanjut">✨ Lanjut</button>
+                <button class="choice-btn selesai" id="pilihSelesai">💔 Selesai</button>
+            </div>
+
+            <!-- AREA PESAN DINAMIS (berubah sesuai pilihan) -->
+            <div class="message-area" id="messageArea">
+                <div class="message-card buka-message" id="messageDisplay">
+                    <!-- Isi default akan diisi JavaScript -->
+                </div>
+            </div>
+
+            <!-- Hiasan sederhana -->
+            <div class="floral">〜 〜 〜 〜 〜</div>
+
+            <!-- Signature / penutup -->
+            <div class="signature">
+                <span class="from">dari seseorang yang</span><br>
+                <span class="name">peduli padamu</span>
+                <div style="margin-top:8px; font-size:1rem; color:#b28b8b;">
+                    <span class="dot-separator"></span> tanpamu tahu <span class="dot-separator"></span>
+                </div>
+            </div>
+            
+            <!-- Catatan kecil -->
+            <div class="btn-note">
+                🕊️ pilih salah satu tombol di atas 🕊️
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const envelope = document.getElementById('suratCinta');
+        const toggleBtn = document.getElementById('bukaTutupBtn');
+        const teksBtn = document.getElementById('teksTombol');
+        const messageDisplay = document.getElementById('messageDisplay');
+        
+        // Tombol pilihan
+        const btnBuka = document.getElementById('pilihBuka');
+        const btnLanjut = document.getElementById('pilihLanjut');
+        const btnSelesai = document.getElementById('pilihSelesai');
+
+        // State amplop: true = terbuka, false = tertutup
+        let isOpen = false; // default tertutup
+
+        // Fungsi untuk toggle buka/tutup amplop
+        function toggleEnvelope() {
+            if (isOpen) {
+                // tutup amplop
+                envelope.classList.add('closed');
+                teksBtn.innerText = 'membuka';
+                isOpen = false;
+            } else {
+                // buka amplop
+                envelope.classList.remove('closed');
+                teksBtn.innerText = 'menutup';
+                isOpen = true;
+            }
+        }
+
+        // Event listener untuk klik di flap
+        toggleBtn.addEventListener('click', toggleEnvelope);
+
+        // Inisialisasi awal: tertutup
+        envelope.classList.add('closed');
+        teksBtn.innerText = 'membuka';
+        isOpen = false;
+
+        // Fungsi untuk menampilkan pesan berdasarkan pilihan
+        function showMessage(type) {
+            // Pastikan amplop terbuka agar pesan terlihat (opsional, bisa juga dibiarkan tertutup)
+            if (!isOpen) {
+                // Kalau mau otomatis buka amplop saat pilih menu, aktifkan baris berikut:
+                // envelope.classList.remove('closed');
+                // teksBtn.innerText = 'menutup';
+                // isOpen = true;
+                // Tapi biarkan sesuai preferensi: surat tetap bisa dibaca meski amplop tertutup? 
+                // Lebih baik suratnya terbuka. Jadi saya paksa buka saat pilih menu:
+                envelope.classList.remove('closed');
+                teksBtn.innerText = 'menutup';
+                isOpen = true;
+            }
+
+            // Konten pesan
+            let content = '';
+            let className = '';
+
+            if (type === 'buka') {
+                className = 'buka-message';
+                content = `
+                    <span style="font-size:2rem; display:block; text-align:center;">💌</span>
+                    <h3 style="color:#aa4e4e; margin:10px 0 5px;">Isi Surat Untukmu</h3>
+                    <p>Hai, orang baik yang kusayangi dan kuperhatikan,<br><br>
+                    Mungkin kamu tidak tahu, dan mungkin kita bukan siapa-siapa. Tapi ada satu tempat kecil di hatiku yang selalu hangat saat memikirkanmu. Aku tidak perlu alasan untuk peduli, tidak perlu status untuk merasa dekat.<br><br>
+                    Aku hanya ingin kamu tahu, di dunia ini ada seseorang yang mendoakanmu tanpa syarat. Semoga harimu selalu dikelilingi kebahagiaan, dan senyummu tidak pernah pudar.<br><br>
+                    Terima kasih sudah menjadi alasan aku percaya pada kebaikan. Meski aku bukan siapa-siapa, aku selalu ada di sini, mendukungmu dari kejauhan.<br><br>
+                    <span style="display:block; text-align:center; font-size:1.5rem; margin:12px 0;">🌷</span>
+                    Jaga dirimu baik-baik, ya.</p>
+                `;
+            } 
+            else if (type === 'lanjut') {
+                className = 'lanjut-message';
+                content = `
+                    <span style="font-size:2rem; display:block; text-align:center;">✨</span>
+                    <h3 style="color:#b87c30; margin:10px 0 5px;">Kata-kata untuk Melanjutkan Hubungan</h3>
+                    <p>Kita mungkin baru saling mengenal, atau mungkin sudah lama berjalan di sisi yang berbeda. Tapi hatiku berkata, ada baiknya kita coba melangkah bersama.<br><br>
+                    Aku ingin lebih dari sekadar "bukan siapa-siapa". Aku ingin menjadi seseorang yang lebih berarti dalam hidupmu, jika kamu mengizinkan.<br><br>
+                    Tidak perlu terburu-buru, kita bisa saling mengenal lebih dalam, berbagi cerita, dan melihat apakah hati kita selaras.<br><br>
+                    <i>"Aku tidak tahu apa yang akan terjadi, tapi aku tahu aku ingin kamu ada di dalam ceritaku."</i><br><br>
+                    Maukah kita coba lanjutkan hubungan ini ke tingkat yang lebih hangat? 🌻</p>
+                `;
+            } 
+            else if (type === 'selesai') {
+                className = 'selesai-message';
+                content = `
+                    <span style="font-size:2rem; display:block; text-align:center;">💔</span>
+                    <h3 style="color:#5f5f5f; margin:10px 0 5px;">Untuk Menutup Hubungan</h3>
+                    <p>Ada kalanya sesuatu harus berakhir, meskipun tidak mudah. Mungkin kita tidak ditakdirkan untuk bersama, atau mungkin ini adalah jalan terbaik untuk kita berdua.<br><br>
+                    Aku betterima kasih atas setiap momen yang telah kita lalui, meski hanya sebentar. Kamu akan selalu punya tempat spesial di memoriku.<br><br>
+                    Jika ini adalah perpisahan, biarlah menjadi perpisahan yang baik. Aku melepaskanmu dengan doa, semoga kamu menemukan kebahagiaan yang sesungguhnya.<br><br>
+                    <span style="display:block; text-align:center;">🍂 Selamat jalan, dan terima kasih atas semuanya. 🍂</span><br>
+                    Mungkin di lain waktu, di lain cerita, kita bisa bertemu kembali sebagai orang yang lebih baik.</p>
+                `;
+            }
+
+            // Update konten dan class
+            messageDisplay.innerHTML = content;
+            messageDisplay.className = `message-card ${className}`;
+        }
+
+        // Event listeners untuk tombol
+        btnBuka.addEventListener('click', function() {
+            showMessage('buka');
+        });
+
+        btnLanjut.addEventListener('click', function() {
+            showMessage('lanjut');
+        });
+
+        btnSelesai.addEventListener('click', function() {
+            showMessage('selesai');
+        });
+
+        // Tampilkan pesan default (misalnya 'buka' saat pertama kali halaman dimuat)
+        // Tapi karena amplop tertutup, kita tampilkan saja default saat pertama buka
+        // Pilihan: tampilkan pesan 'buka' sebagai pembuka (setelah amplop dibuka)
+        // Kita set agar saat pertama kali pengguna membuka amplop, langsung lihat pesan buka.
+        // Tapi ada tombol, jadi lebih baik default kosong atau pesan sambutan.
+        
+        // Set default pesan (bisa juga pesan selamat datang)
+        messageDisplay.innerHTML = `
+            <span style="font-size:1.8rem; display:block; text-align:center;">👋</span>
+            <p style="text-align:center;">Pilih salah satu tombol di atas untuk melihat pesan:<br>
+            <strong>📩 Buka</strong> (isi surat original)<br>
+            <strong>✨ Lanjut</strong> (kata-kata untuk melanjutkan hubungan)<br>
+            <strong>💔 Selesai</strong> (untuk menutup hubungan)</p>
+        `;
+        messageDisplay.className = `message-card buka-message`; // pakai style buka
+
+        // efek tambahan untuk tombol
+        [btnBuka, btnLanjut, btnSelesai].forEach(btn => {
+            btn.addEventListener('mousedown', function(e) {
+                this.style.transform = 'translateY(4px)';
+                this.style.boxShadow = '0 2px 0 #dba5a5, 0 5px 12px rgba(190, 90, 90, 0.2)';
+            });
+            btn.addEventListener('mouseup', function(e) {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 6px 0 #dba5a5, 0 8px 18px rgba(190, 90, 90, 0.2)';
+            });
+            btn.addEventListener('mouseleave', function(e) {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 6px 0 #dba5a5, 0 8px 18px rgba(190, 90, 90, 0.2)';
+            });
+        });
+
+    })();
+</script>
+
+<!-- 
+    Penjelasan:
+    - Tombol Buka: menampilkan surat original yang isinya hangat dan penuh perhatian.
+    - Tombol Lanjut: berisi ajakan untuk melanjutkan hubungan ke jenjang lebih dekat.
+    - Tombol Selesai: berisi kata perpisahan yang dewasa untuk menutup hubungan.
+    - Amplop tetap bisa dibuka/tutup dengan klik di header.
+-->
+</body>
+</html>
